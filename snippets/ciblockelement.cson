@@ -1,52 +1,128 @@
 ".source.php":
-    "CIBlockElement.Add":
-        "prefix": "CIBlockElementAdd"
-        "body": """
-        $rsEl = new CIBlockElement;
-        $arFields = array(
-          'ACTIVE' => 'Y',
-          'NAME'   => '${1:name}',
-          'PROPERTY_VALUES' => array(
-            //propertys array ...
-          )
-        );
-        if(!$id = $rsEl->Add($arFields))
-            echo "Error:" . $rsEl->LAST_ERROR;
-        """
-    "CIBlockElement.Delete":
-        "prefix": "CIBlockElementDel"
-        "body": """
-        CIBlockElement::Delete('${1:elementID}');
-        """
-    "CIBlockElement.GetByID":
-        "prefix": "CIBlockElementID"
-        "body": """
-        $arElement = CIBlockElement::GetByID(${1:elementID})->fetch();
-        if(is_array($arElement))
-            //body ...
-        """
-    "CIBlockElement.GetList":
-        "prefix": "CIBlockElementList"
-        "body": """
-        $rsElement = CIBlockElement::GetList(
-            $arOrder  = array('SORT' => 'ASC'),
-            $arFilter = array(
-                'ACTIVE' => 'Y'
-            ),
-            false,
-            false,
-            $arSelectFields = array('ID','NAME','IBLOCK_ID','CODE','PROPERTY_*')
-        );
-        while($arElement = $rsElement->fetch())
-            var_export($arElement);
-        """
-    "CIBlockElement.Update":
-        "prefix": "CIBlocElementkUpdate"
-        "body": """
-        $rsElement = new CIBlockElement;
-        $arFields = array(
-          'ACTIVE' => 'Y',
-          ...
-        );
-        $rsIDElement = $rsElement->Update(${1:id},$arFields);
-        """
+  "CIBlockElement::Add":
+    "prefix": "CIBlockElementAdd"
+    "body": """
+    $${1:rsEl} = new CIBlockElement;
+    $${2:arFields} = array(
+      'ACTIVE' => 'Y',
+      'NAME'   => '${3:name}',
+      'PROPERTY_VALUES' => array(
+        //propertys array ...
+      )
+    );
+    if(!$id = ${1:rsEl}->Add(${2:arFields}))
+        echo "Error:" . ${1:rsEl}->LAST_ERROR;$3
+    """
+
+  "CIBlockElement::Delete":
+    "prefix": "CIBlockElementDel"
+    "body": """
+    CIBlockElement::Delete('${1:elementID}');$2
+    """
+
+  "CIBlockElement::GetByID":
+    "prefix": "CIBlockElementID"
+    "body": """
+    $${1:arElement} = CIBlockElement::GetByID(${2:elementID})->GetNext();
+    if(${1:arElement})
+        var_export(${1:arElement});$3
+    """
+
+  "CIBlockElement::GetElementGroups":
+    "prefix": "CIBlockElementGetElementGroups"
+    "body": """
+    $${1:rsGroups} = CIBlockElement::GetElementGroups(${2:elementID}, true);
+    while($${3:arGroup} = $${1:rsGroups}->Fetch())
+      var_export($${3:arGroup});$4
+    """
+
+  "CIBlockElement::GetIBlockByID":
+    "prefix": "CIBlockElementGetIBlockByID"
+    "body": """
+    $${1:iblockID} = CIBlockElement::GetIBlockByID(${2:elementID});$3
+    """
+
+  "CIBlockElement::GetProperty":
+    "prefix": "CIBlockElementGetProperty"
+    "body": """
+    $${1:rsProps} = CIBlockElement::GetProperty(
+    ${2:iblockID},${3:elementID},
+    array("sort" => "asc"), Array(${4:arFilter});
+    if($${5:arProps} = $${1:rsProps}->Fetch())
+      var_export($${5:arProps});$6
+    """
+
+  "CIBlockElement::SetElementSection":
+    "prefix": "CIBlockElementSetElementSection"
+    "body": """
+    CIBlockElement::SetElementSection(${1:elementID}, $${2:arSections});
+    //update faset index
+    $${3:arElement} = CIBlockElement::GetByID(${1:elementID})->GetNext();
+    if(${3:arElement})
+      PropertyIndex\\\\Manager::updateElementIndex(${3:arElement}["IBLOCK_ID"], ${1:elementID});$4
+    """
+
+  "CIBlockElement::SetPropertyValues":
+    "prefix": "CIBlockElementSetPropertyValues"
+    "body": """
+    CIBlockElement::SetPropertyValues(${1:elementID},
+     ${2:iblockID}, $${3:PROPERTY_VALUE}, $${4:PROPERTY_CODE});$5
+    """
+
+  "CIBlockElement::SetPropertyValuesEx":
+    "prefix": "CIBlockElementSetPropertyValuesEx"
+    "body": """
+    CIBlockElement::SetPropertyValuesEx(${1:elementID}, false,
+     array($${3:PROPERTY_CODE}) => $${4:PROPERTY_VALUE});$5
+    """
+
+  "CIBlockElement::SetPropertyValueCode":
+    "prefix": "CIBlockElementSetPropertyValueCode"
+    "body": """
+    CIBlockElement::SetPropertyValueCode(${1:elementID},
+     ${2:PROPERTY_CODE},
+     ${3:PROPERTY_VALUE});$4
+    """
+
+  "CIBlockElement::UpdateSearch":
+    "prefix": "CIBlockElementUpdateSearch"
+    "body": """
+    CIBlockElement::UpdateSearch(${1:elementID});$2
+    """
+
+  "CIBlockElement::CounterInc":
+    "prefix": "CIBlockElementCounterInc"
+    "body": """
+    CIBlockElement::CounterInc(${1:elementID});$2
+    """
+
+  "CIBlockElement::GetList":
+    "prefix": "CIBlockElementList"
+    "body": """
+    $${1:rsElement} = CIBlockElement::GetList(
+        $arOrder  = array('SORT' => 'ASC'),
+        $arFilter = array(
+            'ACTIVE' => 'Y'
+        ),
+        false,
+        false,
+        $arSelectFields = array('ID','NAME','IBLOCK_ID','CODE','PROPERTY_*')
+    );
+    while($${2:obElement} = $${1:rsElement}->GetNextElement()){
+     $${3:arFields} = $${2:obElement}->GetFields();
+     var_export($${3:arFields});
+     $${4:arProps} = $${2:obElement}->GetProperties();
+     var_export($${4:arProps});$5
+    }
+    """
+
+  "CIBlockElement::Update":
+    "prefix": "CIBlockElementUpdate"
+    "body": """
+    $${1:el} = new CIBlockElement;
+    $${2:arFields} = array(
+      'ACTIVE' => 'Y',
+      ...
+    );
+    $${3:rsIDElement} = $${1:el}->Update(${4:id},$${2:arFields});$5
+    """

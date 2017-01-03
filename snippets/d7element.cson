@@ -1,12 +1,77 @@
 ".source.php":
-    "D7element":
-        "prefix": "d7element"
-        "body": """
-        $arElements = \\\\Bitrix\\\\Iblock\\\\ElementTable::getList(array(
-            'select' => array('NAME'),
-            'filter' => array('ID' => '${1:id}')
-        ))->fetch();
+  "\\\\Bx\\\\Iblock\\\\ElementTable::getList":
+    "prefix": "D7ElementGetList"
+    "body": """
+    $arElements = \\\\Bitrix\\\\Iblock\\\\ElementTable::getList(array(
+        'select' => array('NAME'),
+        'filter' => array('ID' => '${1:id}')
+    ))->fetch();
 
-        foreach($arElements as $arElement)
-            var_export($arElement);
-        """
+    foreach($arElements as $arElement)
+        var_export($arElement);
+    """
+
+  "\\\\Bx\\\\Iblock\\\\ElementTable::add":
+    "prefix": "D7ElementAdd"
+    "body": """
+    $${1:arElement} = Array('NAME'=>${2:name}, ...);
+    \\\\Bitrix\\\\Iblock\\\\ElementTable::add($${1:arElement});
+    """
+
+  "\\\\Bx\\\\Iblock\\\\ElementTable::delete":
+    "prefix": "D7ElementDelete"
+    "body": """
+    \\\\Bitrix\\\\Iblock\\\\ElementTable::delete(${1:primary_key_value});$2
+    """
+
+  "\\\\Bx\\\\Iblock\\\\ElementTable::getMap":
+    "prefix": "D7ElementGetMap"
+    "body": """
+    \\\\Bitrix\\\\Iblock\\\\ElementTable::getMap();$1
+    """
+
+  "\\\\Bx\\\\Iblock\\\\ElementTable::getTableName":
+    "prefix": "D7ElementGetTableName"
+    "body": """
+    \\\\Bitrix\\\\Iblock\\\\ElementTable::getTableName();$1
+    """
+
+  "\\\\Bx\\\\Iblock\\\\ElementTable::validateCode":
+    "prefix": "D7ElementValidateCode"
+    "body": """
+    \\\\Bitrix\\\\Iblock\\\\ElementTable::validateCode();$1
+    """
+
+  "\\\\Bx\\\\Iblock\\\\ElementTable::validateName":
+    "prefix": "D7ElementValidateName"
+    "body": """
+    \\\\Bitrix\\\\Iblock\\\\ElementTable::validateName();$1
+    """
+
+  "\\\\Bx\\\\Iblock\\\\ElementTable::validateTags":
+    "prefix": "D7ElementValidateTags"
+    "body": """
+    \\\\Bitrix\\\\Iblock\\\\ElementTable::validateTags();$1
+    """
+
+  "\\\\Bx\\\\Iblock\\\\ElementTable::validateTmpId":
+    "prefix": "D7ElementValidateTmpId"
+    "body": """
+    \\\\Bitrix\\\\Iblock\\\\ElementTable::validateTmpId();$1
+    """
+
+  "\\\\Bx\\\\Iblock\\\\ElementTable::validateXmlId":
+    "prefix": "D7ElementValidateXmlId"
+    "body": """
+    \\\\Bitrix\\\\Iblock\\\\ElementTable::validateXmlId();$1
+    """
+
+  "\\\\Bx\\\\Iblock\\\\ElementTable::update":
+    "prefix": "D7ElementUpdate"
+    "body": """
+    $${1:arElement} = Array(...);
+    \\\\Bitrix\\\\Iblock\\\\ElementTable::update(
+    $${2:primary_key_value},
+    $${1:arElement}
+    );$3
+    """

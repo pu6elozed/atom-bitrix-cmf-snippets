@@ -1,9 +1,43 @@
 ".source.php":
-    "D7Config":
-        "prefix": "d7config"
-        "body": """
-        //get from /bitrix/.settings.php
-        $realm = \\\\Bitrix\\\\Main\\\\Config\\\\Configuration::getValue("${1:param}");
-        if (is_null($realm))
-            $realm = "Bitrix Site Manager"
-        """
+  "\\\\Bx\\\\Main\\\\Config\\\\Configuration::getValue":
+    "prefix": "d7configGetValue"
+    "body": """
+    $realm = \\\\Bitrix\\\\Main\\\\Config\\\\Configuration::getValue("${1:param}");
+    if (is_null($realm))
+        $realm = "Bitrix Site Manager"
+    $2
+    """
+
+  "\\\\Bx\\\\Main\\\\Config\\\\Configuration::addReadonly":
+    "prefix": "d7configAddReadonly"
+    "body": """
+    \\\\Bitrix\\\\Main\\\\Config\\\\Configuration::addReadonly(${1:name},$${2:arValue});
+    $3
+    """
+
+  "\\\\Bx\\\\Main\\\\Config\\\\Configuration::add":
+    "prefix": "d7configAdd"
+    "body": """
+    $configuration = \\\\Bx\\\\Main\\\\Config\\\\Configuration::getInstance();
+    $configuration->add('${1:name}', $${2:arValue});$3
+    """
+
+  "\\\\Bx\\\\Main\\\\Config\\\\Configuration::get":
+    "prefix": "d7configGet"
+    "body": """
+    $configuration = \\\\Bx\\\\Main\\\\Config\\\\Configuration::getInstance();
+    $${1:value} = $configuration->get('${2:name}');$3
+    """
+
+  "\\\\Bx\\\\Main\\\\Config\\\\Configuration::getInstance":
+    "prefix": "d7configGetInstanse"
+    "body": """
+    $configuration = \\\\Bx\\\\Main\\\\Config\\\\Configuration::getInstance();
+    """
+
+  "\\\\Bx\\\\Main\\\\Config\\\\Configuration::saveConfiguration":
+    "prefix": "d7configSaveConfig"
+    "body": """
+    $configuration = \\\\Bx\\\\Main\\\\Config\\\\Configuration::getInstance();
+    $configuration->saveConfiguration();
+    """

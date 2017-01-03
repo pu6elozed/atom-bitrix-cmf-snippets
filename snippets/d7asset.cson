@@ -1,0 +1,20 @@
+".source.php":
+  'use Bitrix\\Main\\Page\\Asset;':
+    'prefix': 'd7asset'
+    'body':"""use Bitrix\\\\Main\\\\Page\\\\Asset;
+    Asset::getInstance()->addCss($1);
+    Asset::getInstance()->addJs($2);$3"""
+
+  'Asset::getInstance()->addCss()':
+    'prefix': 'd7asset->css'
+    'body':"Asset::getInstance()->addCss($1);$2"
+
+  'Asset::getInstance()->addJs()':
+    'prefix': 'd7asset->js'
+    'body':"Asset::getInstance()->addJs($1);$2"
+
+  'Asset::getInstance()->addScript()':
+    'prefix': 'd7asset->string'
+    'body': """
+    Asset::getInstance()->addString("${1:full line tu put script}");$2
+    """

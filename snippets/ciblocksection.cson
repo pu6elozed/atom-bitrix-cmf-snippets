@@ -1,49 +1,122 @@
 ".source.php":
-    "CIBlockSection.Add":
-        "prefix": "CIBlockSectionAdd"
-        "body": """
-        $rsSect = new CIBlockSection;
-        $arFields = array(
-          'ACTIVE' => 'Y',
-          'NAME'   => '${1:name}'
+  "CIBlockSection.Add":
+    "prefix": "CIBlockSectionAdd"
+    "body": """
+    $${1:rsSect} = new CIBlockSection;
+    $${2:arFields} = array(
+      'ACTIVE' => 'Y',
+      'NAME'   => '${3:name}',
+      'IBLOCK_ID'   => '${4:iblockID}',
+    );
+    if(!$${5:SectionID} = $${1:rsSect}->Add($${2:arFields}))
+        echo "Error:" . $${1:rsSect}->LAST_ERROR;$6
+    """
+
+  "CIBlockSection.Delete":
+    "prefix": "CIBlockSectionDel"
+    "body": """
+    CIBlockSection::Delete('${1:SectionID}');$2
+    """
+
+  "CIBlockSection.GetByID":
+    "prefix": "CIBlockSectionGetByID"
+    "body": """
+    $${1:arSection} = CIBlockSection::GetByID(${2:SectionID})->GetNext();
+    if($${1:arSection})
+        var_export($${1:arSection})
+    """
+
+  "CIBlockSection.GetList":
+    "prefix": "CIBlockSectionList"
+    "body": """
+    $${1:rsSection} = CIBlockSection::GetList(
+        $arOrder  = array('SORT' => 'ASC'),
+        $arFilter = array(
+            'ACTIVE' => 'Y',
+            'IBLOCK_ID' => ${2:iblockID}
+        ),
+        false,
+        $arSelect = array('ID','NAME','IBLOCK_ID','CODE','UF_*'),
+        false
+    );
+    while($${3:arSection} = $${1:rsSection}->GetNext())
+        var_export($${3:arSection});$4
+    """
+
+  "CIBlockSection.GetMixedList":
+    "prefix": "CIBlockSectionList"
+    "body": """
+    $${1:rsSection} = CIBlockSection::GetMixedList(
+        $arOrder  = array('SORT' => 'ASC'),
+        $arFilter = array(
+            'ACTIVE' => 'Y',
+            'IBLOCK_ID' => ${2:iblockID}
+        ),
+        false,
+    );
+    while($${3:arMixed} = $${1:rsSection}->GetNext())
+        var_export($${3:arMixed});$4
+    """
+
+  "CIBlockSection.GetCount":
+    "prefix": "CIBlockSectionGetCount"
+    "body": """
+    $${1:arFilter} = Array(
+        "IBLOCK_ID"=>${2:iblockID},
+        "SECTION_ID"=>${3:sectionID}
         );
-        if(!$id = $rsSect->Add($arFields))
-            echo "Error:" . $rsSect->LAST_ERROR;
-        """
-    "CIBlockSection.Delete":
-        "prefix": "CIBlockSectionDel"
-        "body": """
-        CIBlockSection::Delete('${1:SectionID}');
-        """
-    "CIBlockSection.GetByID":
-        "prefix": "CIBlockSectionID"
-        "body": """
-        $arSection = CIBlockSection::GetByID(${1:SectionID})->fetch();
-        if(is_array($arSection))
-            //body ...
-        """
-    "CIBlockSection.GetList":
-        "prefix": "CIBlockSectionList"
-        "body": """
-        $rsSection = CIBlockSection::GetList(
-            $arOrder  = array('SORT' => 'ASC'),
-            $arFilter = array(
-                'ACTIVE' => 'Y'
-            ),
-            false,
-            $arSelect = array('ID','NAME','IBLOCK_ID','CODE','UF_*'),
-            false
-        );
-        while($arSection = $rsSection->fetch())
-            var_export($arSection);
-        """
-    "CIBlockSection.Update":
-        "prefix": "CIBlocSectionkUpdate"
-        "body": """
-        $rsSection = new CIBlockSection;
-        $arFields = array(
-          'ACTIVE' => 'Y',
-          ...
-        );
-        $rsIDSection = $rsSection->Update(${1:id},$arFields);
-        """
+    echo CIBlockSection::GetCount($${1:arFilter});$4
+    """
+
+  "CIBlockSection.GetSectionElementsCount":
+    "prefix": "CIBlockSectionGetElementsCount"
+    "body": """
+    CIBlockSection::GetSectionElementsCount(${1:sectionID},
+    Array("CNT_ACTIVE"=>"$${2:Y}"));$3
+    """
+
+  "CIBlockSection.GetTreeList":
+    "prefix": "CIBlockSectionGetTreeList"
+    "body": """
+    $${1:arFilter} = array('IBLOCK_ID' => ${2:iblockID}, 'ACTIVE' => 'Y');
+    $${3:arSelect} = array('ID', 'NAME');
+    $${4:rsSection} = CIBlockSection::GetTreeList($${1:arFilter}, $${3:arSelect});
+    while($${5:arSection} = $${4:rsSection}->Fetch()) {
+       var_export($${5:arSection});
+    }$6
+    """
+
+  "CIBlockSection.GetNavChain":
+    "prefix": "CIBlockSectionGetNavChain"
+    "body": """
+    $${1:nav} = CIBlockSection::GetNavChain(false, $${2:sectionID});
+    while($${1:nav}->ExtractFields("${1:nav}_")):
+    ?> &raquo;
+      <?if($${2:sectionID} == $${1:nav}_ID):
+        echo $${1:nav}_NAME
+      else:?>
+        <a class="navchain"
+        href="<?=$APPLICATION->GetCurPage()?>?iblock_id=<?=${3:iblockID}?>&section_id=<?=$${1:nav}_id?>#tb">
+          <?echo $${1:nav}_NAME?>
+        </a>
+      <?endif;
+    endwhile;$4
+    """
+
+  "CIBlockSection.Update":
+    "prefix": "CIBlockSectionkUpdate"
+    "body": """
+    $${1:rsSection} = new CIBlockSection;
+    $${2:arFields} = array(
+      'ACTIVE' => 'Y',
+      ..
+    );
+    $${4:arSection} = $${1:rsSection}->Update(${3:id},$${2:arFields});
+    var_export($${4:arSection});$5
+    """
+
+  "CIBlockSection.ReSort":
+    "prefix": "CIBlockSectionkReSort"
+    "body": """
+    CIBlockSection::ReSort(${1:iblockID});$2
+    """

@@ -1,61 +1,323 @@
 ".source.php":
-    "CUser.add":
-        "prefix": "cuseradd"
-        "body": """
-        $rsUser = new CUser;
-        $arFields = array(
-            'NAME'      => '${1:username}',
-            'LAST_NAME' => '${2:usernamelast}',
-            'EMAIL'     => '${3:usremail}',
-            'LOGIN'     => '${4:login}',
-            'ACTIVE'    => 'Y',
-            'GROUP_ID'  => array('${5:groups}'),
-            'PASSWORD'  => '${6:userpass}'
-        );
+  "CUser.Add":
+    "prefix": "CUserAdd"
+    "body": """
+    $${1:rsUser} = new CUser;
+    $${2:arFields} = array(
+        'NAME'      => '${3:username}',
+        'LAST_NAME' => '${4:usernamelast}',
+        'EMAIL'     => '${5:usremail}',
+        'LOGIN'     => '${6:login}',
+        'ACTIVE'    => 'Y',
+        'GROUP_ID'  => array('${7:groups}'),
+        'PASSWORD'  => '${8:userpass}'
+    );
 
-        $id = $rsUser->Add($arfields);
-        if(!$id)
-            echo $rsUser->LAST_ERROR;
-        """
+    $${9:id} = $${1:rsUser}->Add($${2:arFields})
+    if(!$${9:id})
+        echo $${1:rsUser}->LAST_ERROR;$10
+    """
 
-    "CUser.delete":
-        "prefix": "cuserdelete"
-        "body": """
-        CUser::Delete('${1:usrid}');
-        """
-    "CUser.GetByID":
-        "prefix": "cusergetbyid"
-        "body": """
-        $arUser = CUser::GetByID('${1:usrid}')->fetch();
-        if(is_array($arUser))
-            var_export($arUser);
-        """
+  "CUser.Delete":
+    "prefix": "CUserDelete"
+    "body": """
+    CUser::Delete('${1:userID}');$2
+    """
 
-    "CUser.GetList":
-            "prefix": "cusergetlist"
-            "body": """
-            $arFilter = array(
-                'ACTIVE' => 'Y',
-                'ID' => '${1:usrid}'
-            );
-            $rsUsers = CUser::GetList(
-            ($by = "personal_country"),
-            ($order = "desc"),
-            $arFilter
-            );
-            while($arUsers = $rsUsers->fetch()){
-                var_export($arUsers);
-            }
-            """
+  "CUser.GetByID":
+    "prefix": "CUserGetByID"
+    "body": """
+    $${1:arUser} = CUser::GetByID('${2:userID}')->Fetch();
+    if(is_array($${1:arUser}))
+        var_export($${1:arUser});$3
+    """
 
-    "CUser.Update":
-        "prefix": "cuserupdate",
-        "body": """
-        $arFields = array(
-            'NAME'  => '${1:newusername}',
-            'EMAIL' => '${2:newusremail}',
-            ....
-        );
-        $rsUser = new CUser;
-        $rsUser->Update('${3:usrID}', $arFields);
-        """
+  "CUser.GetByLogin":
+    "prefix": "CUserGetByLogin"
+    "body": """
+    $${1:rsUser} = CUser::GetByLogin("${2:userLogin");
+    $${3:arUser} = $${1rsUser}->Fetch();
+    var_export(${3:arUser});$4
+    """
+
+  "CUser.GetID":
+    "prefix": "CUserGetID"
+    "body": """
+    global $USER;
+    echo $USER->GetID();$1
+    """
+
+  "CUser.GetLogin":
+    "prefix": "CUserGetLogin"
+    "body": """
+    global $USER;
+    echo $USER->GetLogin();$1
+    """
+
+  "CUser.GetFullName":
+    "prefix": "CUserGetFullName"
+    "body": """
+    global $USER;
+    echo $USER->GetFullName();$1
+    """
+
+  "CUser.GetFirstName":
+    "prefix": "CUserGetFirstName"
+    "body": """
+    global $USER;
+    echo $USER->GetFirstName();$1
+    """
+
+  "CUser.GetLastName":
+    "prefix": "CUserGetLastName"
+    "body": """
+    global $USER;
+    echo $USER->GetLastName();$1
+    """
+
+  "CUser.GetEmail":
+    "prefix": "CUserGetEmail"
+    "body": """
+    global $USER;
+    echo $USER->GetEmail();$1
+    """
+
+  "CUser.GetParam":
+    "prefix": "CUserGetParam"
+    "body": """
+    global $USER;
+    echo $USER->GetParam("${1:paramName}");$2
+    """
+
+  "CUser.GetUserGroupArray":
+    "prefix": "CUserGetUserGroupArray"
+    "body": """
+    global $USER;
+    $${1:arGroups} = $USER->GetUserGroupArray();
+    var_export(${1:arGroups});$2
+    """
+
+  "CUser.GetUserGroupList":
+    "prefix": "CUserGetUserGroupList"
+    "body": """
+    $${1:res} = CUser::GetUserGroupList(${2:userID});
+    while ($${3:arGroup} = $${1:res}->Fetch()){
+       var_export($${3:arGroup});$4
+    }
+    """
+
+
+  "CUser.GetList":
+    "prefix": "CUserGetList"
+    "body": """
+    $${1:arFilter} = array(
+        'ACTIVE' => 'Y',
+        'ID' => '${2:userID}'
+    );
+    $${3:rsUsers} = CUser::GetList(
+    ($by = "personal_country"),
+    ($order = "desc"),
+    $${1:arFilter}
+    );
+    while($${4:arUsers} = ${3:rsUsers}->Fetch()){
+        var_export($${4:arUsers});
+    }$5
+    """
+
+  "CUser.GetUserGroup":
+    "prefix": "CUserGetUserGroup"
+    "body": """
+    $${1:arGroups} = CUser::GetUserGroup(${2:userID});
+    var_export($${1:arGroups});$3
+    """
+
+  "CUser.GetUserGroupString":
+    "prefix": "CUserGetUserGroupSring"
+    "body": """
+    global $USER;
+    $${1:strGroups} = $USER->GetUserGroupString();
+    echo $${1:strGroups};$2
+    """
+
+  "CUser.IsAdmin":
+    "prefix": "CUserIsAdmin"
+    "body": """
+    global $USER;
+    $USER->IsAdmin();$1
+    """
+
+  "CUser.IsAuthorized":
+    "prefix": "CUserIsAuthorized"
+    "body": """
+    global $USER;
+    $USER->IsAuthorized();$1
+    """
+
+  "CUser.IsOnLine":
+    "prefix": "CUserIsOnLine"
+    "body": """
+    CUser::IsOnLine(${1:userID});$2
+    """
+
+  "CUser.Login":
+    "prefix": "CUserLogin"
+    "body": """
+    global $USER;
+    if (!is_object($USER)) $USER = new CUser;
+    $${1:arAuthResult} = $USER->Login("${2:login}", "${3:pass}", "Y");
+    $APPLICATION->arAuthResult = $${1:arAuthResult};$4
+    """
+
+  "CUser.LoginByHash":
+    "prefix": "CUserLoginByHash"
+    "body": """
+    global $USER;
+    if (!is_object($USER)) $USER = new CUser;
+    $${1:cookie_login} = ${COption::GetOptionString("main", "cookie_name", "BITRIX_SM")."_LOGIN"};
+    $${2:cookie_md5pass} = ${COption::GetOptionString("main", "cookie_name", "BITRIX_SM")."_UIDH"};
+    $USER->LoginByHash($${1:cookie_login}, $${2:cookie_md5pass});$3
+    """
+
+  "CUser.SavePasswordHash":
+    "prefix": "CUserSavePassHash"
+    "body": """
+    global $USER;
+    if ($USER->IsAuthorized()) $USER->SavePasswordHash();$1
+    """
+
+  "CUser.GetPasswordHash":
+    "prefix": "CUserGetPassHash"
+    "body": """
+    global $USER;
+    $${1:hash} = CUser::GetPasswordHash($USER->GetParam("PASSWORD_HASH"));$2
+    """
+
+  "CUser.Authorize":
+    "prefix": "CUserAuthorize"
+    "body": """
+    global $USER;
+    $USER->Authorize(${1:userID});$2
+    """
+
+  "CUser.Logout":
+    "prefix": "CUserLogout"
+    "body": """
+    global $USER;
+    $USER->Logout();$1
+    """
+
+  "CUser.Register":
+    "prefix": "CUserRegister"
+    "body": """
+    global $USER;
+    $${1:arResult} = $USER->Register(
+    "${2:username}",
+    "${3:firstname}",
+    "${4:lastname}",
+    "${5:pass}",
+    "${6:confirm_pass}",
+    "${7:email}");
+    ShowMessage($${1:arResult});
+    echo $USER->GetID();$8
+    """
+
+  "CUser.SimpleRegister":
+    "prefix": "CUserSimpleRegister"
+    "body": """
+    global $USER;
+    $${1:arResult} = $USER->SimpleRegister("${2:email}");
+    ShowMessage($${1:arResult});
+    echo $USER->GetID();$3
+    """
+
+  "CUser.ChangePassword":
+    "prefix": "CUserChangePass"
+    "body": """
+    global $USER;
+    $${1:arResult} = $USER->ChangePassword(
+    "${2:username}",
+    "${3:checkword}",
+    "${4:password}",
+    "${4:confirm_pass}");
+    if($${1:arResult}["TYPE"] == "OK") echo "Password has been changed.";
+    else ShowMessage($${1:arResult});$5
+    """
+
+  "CUser.SendPassword":
+    "prefix": "CUserSendPass"
+    "body": """
+    global $USER;
+    $${1:arResult} = $USER->SendPassword("${2:username}", "${3:email}");
+    if($${1:arResult}["TYPE"] == "OK") echo "Hash string sended to email.";
+    else echo "Not found login(email).";$4
+    """
+
+  "CUser.SendUserInfo":
+    "prefix": "CUserSendUserInfo"
+    "body": """
+    CUser::SendUserInfo(${1:userID}, SITE_ID, "${2:message}");$3
+    """
+
+  "CUser.GetCount":
+    "prefix": "CUserGetCount"
+    "body": """
+    CUser::GetCount();$1
+    """
+
+  "CUser.GetExternalAuthList":
+    "prefix": "CUserGetExAuthList"
+    "body": """
+    $${1:rsExtAuth} = CUser::GetExternalAuthList();
+    if($${2arExtAuth} = $${1:rsExtAuth}->GetNext()):
+      var_export($${2:arExtAuth});$3
+    """
+
+  "CUser.SetParam":
+    "prefix": "CUserSetParam"
+    "body": """
+    global $USER;
+    $USER->SetParam("${1:paramName}", "${2:param}");$3
+    """
+
+  "CUser.SetUserGroup":
+    "prefix": "CUserSetGroup"
+    "body": """
+    $${1:arGroups} = CUser::GetUserGroup(${2:userID});
+    $${1:arGroups}[] = ${3:groupId};
+    CUser::SetUserGroup(${2:userID}, $${1:arGroups});$4
+    """
+
+  "CUser.SetUserGroupArray":
+    "prefix": "CUserSetGroupArray"
+    "body": """
+    global $USER;
+    $${1:arGroups} = $USER->GetUserGroupArray();
+    $${1:arGroups}[] = ${2:groupId};
+    $USER->SetUserGroupArray($${1:arGroups});
+    """
+
+  "CUser.SetLastActivityDate":
+    "prefix": "CUserSetLastActivity"
+    "body": """
+    CUser::SetLastActivityDate(${1:userID});$2
+    """
+
+  "CUser.CanDoFileOperation":
+    "prefix": "CUserCanDoFileOperation"
+    "body": """
+    $${1:arPath} = Array(${2:site}, ${3:path});
+    $USER->CanDoFileOperation("${4:operation}", $${1:arPath});$5
+    """
+
+  "CUser.Update":
+    "prefix": "CUserUpdate",
+    "body": """
+    $${1:arFields} = array(
+        'NAME'  => '${2:newusername}',
+        'EMAIL' => '${3:newusremail}',
+        ....
+    );
+    $${4:rsUser} = new CUser;
+    $${4:rsUser}->Update('${5:usrID}', $${1:arFields});
+    $6
+    """

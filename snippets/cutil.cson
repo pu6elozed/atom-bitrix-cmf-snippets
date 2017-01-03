@@ -1,6 +1,18 @@
 ".source.php":
-    "CUtil.translit":
-        "prefix": "cutiltranslit"
-        "body": """
-        CUtil::translit('${1:text}','${2:lang}',array(...));
-        """
+  "CUtil.Translit":
+    "prefix": "CUtilTranslit"
+    "body": """
+    CUtil::translit('${1:text}','${2:lang}',array(...));$3
+    """
+
+  "CUtil.PhpToJSObject":
+    "prefix": "CUtilPhpToJSObject"
+    "body": """
+    CUtil::PhpToJSObject(${1:pho_ob});$2
+    """
+
+  "CUtil.GetAdditionalFileURL":
+    "prefix": "CUtilGetAdditionalFileURL"
+    "body": """
+    CUtil::GetAdditionalFileURL('${1:filePath}');$2
+    """

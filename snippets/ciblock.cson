@@ -1,44 +1,131 @@
 ".source.php":
-    "CIBlock.Add":
-        "prefix": "CIBlockAdd"
-        "body": """
-        $rsIB = new CIBlock;
-        $arFields = array(
-          'ACTIVE' => 'Y',
-          'CODE'   => '${1:codename}'
-        );
-        $id = $rsIB->Add($arFields);
-        """
-    "CIBlock.Delete":
-        "prefix": "CIBlockDel"
-        "body": """
-        CIBlock::Delete('${1:iblockID}');
-        """
-    "CIBlock.GetByID":
-        "prefix": "CIBlockID"
-        "body": """
-        $arBlock = CIBlock::GetByID('${1:iblockID}')->fetch();
-        """
-    "CIBlock.GetList":
-        "prefix": "CIBlockList"
-        "body": """
-        $rsBlock = CIBlock::GetList(
-            $arOrder  = array('SORT' => 'ASC'),
-            $arFilter = array(
-                'ACTIVE' => 'Y'
-            ),
-            true
-        );
-        while($arBlocks = $rsBlock->fetch())
-            var_export($arBlocks);
-        """
-    "CIBlock.Update":
-        "prefix": "CIBlockUpdate"
-        "body": """
-        $rsIB = new CIBlock;
-        $arFields = array(
-          'ACTIVE' => 'Y',
-          ...
-        );
-        $rsID = $rsIB->Update('${1:id}',$arFields);
-        """
+  "CIBlock::Add":
+    "prefix": "CIBlockAdd"
+    "body": """
+    $rsIB = new CIBlock;
+    $arFields = array(
+      'ACTIVE' => 'Y',
+      'CODE'   => '${1:codename}'
+    );
+    $id = $rsIB->Add($arFields);
+    """
+
+  "CIBlock::Delete":
+    "prefix": "CIBlockDel"
+    "body": """
+    CIBlock::Delete('${1:iblockID}');
+    """
+
+  "CIBlock::GetByID":
+    "prefix": "CIBlockID"
+    "body": """
+    $arBlock = CIBlock::GetByID('${1:iblockID}')->fetch();
+    """
+
+  "CIBlock::GetList":
+    "prefix": "CIBlockList"
+    "body": """
+    $rsBlock = CIBlock::GetList(
+        $arOrder  = array('SORT' => 'ASC'),
+        $arFilter = array(
+            'ACTIVE' => 'Y'
+        ),
+        true
+    );
+    while($arBlocks = $rsBlock->fetch())
+        var_export($arBlocks);
+    """
+
+  "CIBlock::Update":
+    "prefix": "CIBlockUpdate"
+    "body": """
+    $rsIB = new CIBlock;
+    $arFields = array(
+      'ACTIVE' => 'Y',
+      ...
+    );
+    $rsID = $rsIB->Update('${1:id}',$arFields);
+    """
+
+  "CIBlock::GetSite":
+    "prefix": "CIBlockGetSite"
+    "body": """
+    $${1:obSites} = CIBlock::GetSite(${2:IBLOCK_ID});
+    while($${3:arSite} = $${1:obSites}->Fetch())
+      var_export($${3:arSite});$4
+    """
+
+  "CIBlock::GetProperties":
+    "prefix": "CIBlockGetProperties"
+    "body": """
+    $${1:obRes} = CIBlock::GetProperties(${2:IBLOCK_ID}, ${3:arOrfer}, ${4:arFilter});
+    if($${5:arRes} = $${1:obRes}->Fetch())
+      var_export($${5:arRes});$6
+    """
+
+  "CIBlock::GetPermission":
+    "prefix": "CIBlockGetPermission"
+    "body": """
+    CIBlock::GetPermission(${1:id});$2
+    """
+
+  "CIBlock::SetPermission":
+    "prefix": "CIBlockSetPermission"
+    "body": """
+    CIBlock::SetPermission(${1:id}, Array("${2:id group}"=>"${3:type}"));$4
+    """
+
+  "CIBlock::GetGroupPermissions":
+    "prefix": "CIBlockGetGroupPermissions"
+    "body": """
+    $${1:arRes} = CIBlock::GetGroupPermissions(${2:iblock id});
+    foreach($${1:arRes} as $${3:idGroup}=>$${4:permission})
+      var_dump($${4:permission});
+    $5
+    """
+
+  "CIBlock::GetArrayById":
+    "prefix": "CIBlockGetArrayByID"
+    "body": """
+    CIBlock::GetArrayById(${1:iblock id},"${2:name of field}");$3
+    """
+
+  "CIBlock::SetMessages":
+    "prefix": "CIBlockSetMessages"
+    "body": """
+    CIBlock::SetMessages(${1:iblock id}, $${2:arFields});$3
+    """
+
+  "CIBlock::GetMessages":
+    "prefix": "CIBlockGetMessages"
+    "body": """
+    CIBlock::GetMessages(${1:iblock id}, $${2:type iblock code});$3
+    """
+
+  "CIBlock::SetFields":
+    "prefix": "CIBlockSetFields"
+    "body": """
+    CIBlock::SetFields(${1:iblock id}, $${2:arFields});$3
+    """
+
+  "CIBlock::GetFields":
+    "prefix": "CIBlockGetFields"
+    "body": """
+    CIBlock::GetFields(${1:iblock id});$2
+    """
+
+  "CIBlock::GetElementCount":
+    "prefix": "CIBlockGetElementCount"
+    "body": """
+    CIBlock::GetElementCount(${1:iblock id});$2
+    """
+
+  "CIBlock::ResizePicture":
+    "prefix": "CIBlockResizePicture"
+    "body": """
+    CIBlock::ResizePicture($${1:arFile}, array(
+                    "WIDTH" => 100,
+                    "HEIGHT" => 100,
+                    "METHOD" => "resample",
+                ));
+    """

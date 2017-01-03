@@ -1,17 +1,78 @@
 ".source.php":
-    "CModule.IncludeModule":
-        "prefix": "cmoduleinclude"
-        "body": """
-        CModule::IncludeModule('${1:moduleName}');
-        """
-    "CModule.AddAutoloadClasses":
-        "prefix": "cmoduleaddautoload"
-        "body": """
-        CModule::AddAutoloadClasses(
-            '',
-            array(
-                '${1:classname}' => '${2:pathclass}',
-                ...
-            )
-        );
-        """
+  "CModule.IncludeModule":
+    "prefix": "CModuleInclude"
+    "body": """
+    if(CModule::IncludeModule('${1:moduleName}')){
+      $2
+      };
+    """
+
+  "CModule.GetList":
+    "prefix": "CModuleList"
+    "body": """
+    $${1:rsInstalledModules} = CModule::GetList();
+    while ($${2:arModules} = $${1:rsInstalledModules}->Fetch())
+    {
+        var_export($${2:arModules})
+    }$3
+    """
+
+  "CModule.GetDropdownList":
+    "prefix": "CModuleDropdownList"
+    "body": """
+    $${1:rs} = CModule::GetDropdownList();
+    echo SelectBoxFromArray("module_id", $${1:rs}, $${2:module_id});$3
+    """
+
+  "CModule.Add":
+    "prefix": "CModuleAdd"
+    "body": """
+    $${1:obModule} = new CModule;
+    $${1:obModule}->MODULE_ID = "${2:moduleID}";
+    $${1:obModule}->Add();$3
+    """
+
+  "CModule.Remove":
+    "prefix": "CModuleRemove"
+    "body": """
+    $${1:obModule} = new CModule;
+    $${1:obModule}->MODULE_ID = "${2:moduleID}";
+    $${1:obModule}->Remove();$3
+    """
+
+  "CModule.DoInstall":
+    "prefix": "CModuleDoInstall"
+    "body": """
+    $${1:obModule} = new ${2:moduleID};
+    if(!$${1:obModule}->IsInstalled()) $${1:obModule}->DoInstall();
+    $3
+    """
+
+  "CModule.DoUninstall":
+    "prefix": "CModuleDoUninstall"
+    "body": """
+    $${1:obModule} = new ${2:moduleID};
+    if($${1:obModule}->IsInstalled()) $${1:obModule}->DoUninstall();
+    $3
+    """
+
+  "CModule.IsInstalled":
+    "prefix": "CModuleIsInsttalled"
+    "body": """
+    $${1:obModule} = new ${2:moduleID};
+    var_export($${1:obModule}->IsInstalled());
+    $3
+    """
+
+  "CModule.AddAutoloadClasses":
+    "prefix": "CModuleAddAutoload"
+    "body": """
+    CModule::AddAutoloadClasses(
+        '',
+        array(
+            '${1:classname}' => '${2:pathclass}',
+            ...
+        )
+    );
+    """
+    "description":"d7:\\\\Bitrix\\\\Main\\\\Loader::registerAutoLoadClasses"

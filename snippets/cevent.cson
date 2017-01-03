@@ -1,11 +1,30 @@
 ".source.php":
-    "CEvent.Send":
-        "prefix": "CEventSend"
-        "body": """
-        $arEventFields = array(
-            'EMAIL_TO' => '${1:email}',
-            //fields ...
-        );
+  "CEvent.Send":
+    "prefix": "CEventSend"
+    "body": """
+    $arEventFields = array(
+      'EMAIL_TO' => '${1:email}',
+      //fields ...
+    );
 
-        CEvent::Send('${2:eventname}','${3:siteID}',$arEventFields);
-        """
+    CEvent::Send('${2:eventname}','${3:siteID}',$arEventFields);$4
+    """
+    "description":" d7: \\\\Bitrix\\\\Main\\\\Mail\\\\Event::send."
+
+  "CEvent.SendImmediate":
+    "prefix": "CEventSendImmediate"
+    "body": """
+    $arEventFields = array(
+      'EMAIL_TO' => '${1:email}',
+      //fields ...
+    );
+
+    CEvent::SendImmediate('${2:eventname}','${3:siteID}',$arEventFields);$4
+    """
+    "description":"d7: Bitrix\\\\Main\\\\Mail\\\\Event::sendImmediate."
+
+  "CEvent.CheckEvents":
+    "prefix": "CEventCheckEvents"
+    "body": """
+    CEvent::CheckEvents();$1
+    """

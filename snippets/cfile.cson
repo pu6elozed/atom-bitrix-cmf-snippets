@@ -1,12 +1,145 @@
 ".source.php":
-    "CFile.Delete":
-        "prefix": "CFileDelete"
-        "body": """
-        CFile::Delete('${1:fileID}');
-        """
-    "CFile.GetPath":
-        "prefix": "CFileGetPath"
-        "body": """
-        CFile::GetPath('${1:fileID}');
-        """
-        
+  "CFile.Delete":
+    "prefix": "CFileDelete"
+    "body": """
+    CFile::Delete('${1:fileID}');$2
+    """
+  "CFile.GetPath":
+    "prefix": "CFileGetPath"
+    "body": """
+    CFile::GetPath('${1:fileID}');$2;
+    """
+
+  "CFile::ResizeImageGet":
+    "prefix": "CFileResizeImage"
+    "body": """
+    CFile::ResizeImageGet(
+    ${1:file id or file array},
+    array('width'=>$2,'height'=>$3),
+    BX_IMAGE_RESIZE_PROPROTIONAL,
+    true);
+    $4
+    """
+
+  "CFile::GetByID":
+    "prefix": "CFileGetByID"
+    "body": "CFile::GetByID($1);$2"
+
+  "CFile::GetList":
+    "prefix": "CFileGetList"
+    "body": """
+    ${1:ob} = CFile::GetList(${2:arOrder}, ${3:arFilter});
+      while($${4:ar} = $${1:ob}->GetNext()){
+        var_export($${4:ar});
+      }$5
+    """
+
+  "CFile::ShowImage":
+    "prefix": "CFileShowImage"
+    "body": """
+    CFile::ShowImage(${1:img}, ${2:maxW}, ${3:maxH}, "${4:params}", "", true);$5
+    """
+
+  "CFile::Show2Images":
+    "prefix": "CFileShow2Images"
+    "body": """
+    CFile::Show2Images(${1:img1}, ${2:img2}, ${3:maxW}, ${4:maxH},
+    "${5:params}", true);$6
+    """
+
+  "CFile::CheckFile":
+    "prefix": "CFileCheckFile"
+    "body": """
+    CFile::CheckFile($${1:arFile}, ${2:maxSize}, "${3:mimeTypes}", $(4:ext));$5
+    """
+
+  "CFile::CheckImageFile":
+    "prefix": "CFileCheckImageFile"
+    "body": """
+    CFile::CheckImageFile($${1:arFile}, ${2:maxSize}, "${3:maxW}", $(4:maxH));$5
+    """
+
+  "CFile::IsImage":
+    "prefix": "CFileIsImage"
+    "body": """
+    CFile::IsImage(${1:filename}, ${2:MIME});$3
+    """
+
+  "CFile::MakeFileArray":
+    "prefix": "CFileMakeFileArray"
+    "body": """
+    CFile::MakeFileArray(${1:file});$2
+    """
+
+  "CFile::InputFile":
+    "prefix": "CFileInputFile"
+    "body": """
+    CFile::InputFile("${1:fieldName}", ${2:fieldSize}, ${3:fileID});$4
+    """
+
+  "CFile::SaveFile":
+    "prefix": "CFileSaveFile"
+    "body": """
+    $arIMAGE = array(
+    "name" => "${1:name}",
+    "size" => "${2:size}",
+    "tmp_name" => ${3:tmp path},
+    "type" => ${4:type of file},
+    "old_file" => ${5:if old file},
+    "del" => ${6:Y/N},
+    "MODULE_ID" => ${7:module id},
+    "description" => ${8:description},
+    "content" => ${9:content}
+    );
+    CFile::SaveFile($arIMAGE, "${10:save path}");$11
+    """
+
+  "CFile::SaveForDB":
+    "prefix": "CFileSaveForDB"
+    "body": """
+    $arFields["${1:field}"] = $_FILE["ATTACH_IMG"];
+    $arFields[${1:field}"]["MODULE_ID"] = "${2:module}";
+    CFile::SaveForDB($arFields, "${1:field}", "${2:module}");$3
+    """
+
+  "CFile::UpdateDesc":
+    "prefix": "CFileUpdateDesc"
+    "body": """
+    CFile::UpdateDesc(${1:id}, "${2:description}");$3
+    """
+
+  "CFile::CopyFile":
+    "prefix": "CFileCopy"
+    "body": """
+    CFile::CopyFile(${1:id});$2
+    """
+
+  "CFile::Delete":
+    "prefix": "CFileDelete"
+    "body": """
+    CFile::Delete(${1:id});$2
+    """
+
+  "CFile::FormatSize":
+    "prefix": "CFileFormatSize"
+    "body": """
+    CFile::FormatSize(${1:size}, ${2:precision});$3
+    """
+
+  "CFile::GetFileArray":
+    "prefix": "CFileGetFileArray"
+    "body": """
+    CFile::GetFileArray(${1:id});$2
+    """
+
+  "CFile::ResizeImageFile":
+    "prefix": "CFileResizeImageFile"
+    "body": """
+    CFile::ResizeImageFile(
+    $sourceFile = ${1:file path from},
+    $destinationFile =  ${2:file path to},
+    $arSize = array('width'=>${3:width},'height'=>${4:height}),
+    $resizeType = BX_RESIZE_IMAGE_PROPORTIONAL,
+    $arWaterMark = array(),
+    $jpgQuality=false);$5
+    """

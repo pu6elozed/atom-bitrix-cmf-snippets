@@ -1,9 +1,9 @@
 {
-  "name": "bitrix-snippets",
+  "name": "bitrix-cmf-snippets",
   "main": "index.js",
-  "version": "0.3.2",
-  "description": "Bitrix CMF snippets for Atom",
-  "repository": "https://github.com/anyzicky/atom-bitrix-snippets",
+  "version": "0.1.0",
+  "description": "Bitrix CMF snippets",
+  "repository": "https://github.com/pu6elozed/atom-bitrix-snippets",
   "license": "MIT",
   "engines": {
     "atom": ">=0.174.0 <2.0.0"

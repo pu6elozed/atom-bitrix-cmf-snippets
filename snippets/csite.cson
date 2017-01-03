@@ -1,46 +1,77 @@
 ".source.php":
-    "CSite.Add":
-        "prefix": "csiteadd"
-        "body": """
-        $arFields = Array(
-          "LID"              => "ru",
-          "ACTIVE"           => "Y",
-          "DEF"              => "N",
-          "NAME"             => "${1:sitename}",
-          "DIR"              => "${2:sitedir}",
-          "FORMAT_DATE"      => "DD.MM.YYYY",
-          "FORMAT_DATETIME"  => "DD.MM.YYYY HH:MI:SS",
-          "CHARSET"          => "${3:sitecharset}",
-          "EMAIL"            => "${4:siteemail}",
-          "LANGUAGE_ID"      => "${5:sitelang}",
-          "DOC_ROOT"         => ""
-        );
-        $rsSite = new CSite;
-        $rsSite->Add($arFields);
-        if (strlen($rsSite->LAST_ERROR)>0) $strError .= $rsSite->LAST_ERROR;
-        """
-    "CSite.Delete":
-        "prefix": "csitedelete"
-        "body": """
-        if(CSite::Delete('${1:siteLID}') === false)
-            echo "Can't Delete site...";
-        """
-    "CSite.GetByID":
-        "prefix": "csitegetbyid"
-        "body": """
-        $arSite = CSite::GetByID('${1:siteLID}')->fetch();
-        if(is_array($arSite))
-            var_export($arSite);
-        """
-    "Csite.Update":
-        "prefix": "csiteupdate"
-        "body": """
-        $arFields = array(
-            'EMAIL' => '${1:siteemail}',
-            'NAME'  => '${2:sitename}',
-            ...
-        );
-        $rsSite = new CSite;
-        $rsSite->Update('${3:siteLID}', $arFields);
-        if (strlen($rsSite->LAST_ERROR)>0) $strError .= $rsSite->LAST_ERROR;
-        """
+  "CSite.Add":
+    "prefix": "CSiteAdd"
+    "body": """
+    $arFields = Array(
+      "LID"              => "ru",
+      "ACTIVE"           => "Y",
+      "DEF"              => "N",
+      "NAME"             => "${1:sitename}",
+      "DIR"              => "${2:sitedir}",
+      "FORMAT_DATE"      => "DD.MM.YYYY",
+      "FORMAT_DATETIME"  => "DD.MM.YYYY HH:MI:SS",
+      "CHARSET"          => "${3:sitecharset}",
+      "EMAIL"            => "${4:siteemail}",
+      "LANGUAGE_ID"      => "${5:sitelang}",
+      "DOC_ROOT"         => ""
+    );
+    $rsSite = new CSite;
+    $rsSite->Add($arFields);
+    if (strlen($rsSite->LAST_ERROR)>0) $strError .= $rsSite->LAST_ERROR;
+    """
+
+  "CSite.Delete":
+    "prefix": "CSiteDelete"
+    "body": """
+    if(CSite::Delete('${1:siteID}') === false)
+        echo "Can't Delete site...";
+    """
+
+  "CSite.GetByID":
+    "prefix": "CSiteGetByID"
+    "body": """
+    $arSite = CSite::GetByID('${1:siteID}')->fetch();
+    if(is_array($arSite))
+        var_export($arSite);
+    """
+
+  "CSite.GetList":
+    "prefix": "CSiteGetList"
+    "body": """
+    $${1:rsSites} = CSite::GetList(
+      $by="sort",
+      $order="desc",
+      Array("NAME" => "${2:siteName}"));
+    while ($${3:arSite} = $${1:rsSites}->Fetch())
+      var_export($${3:arSite});
+    $4
+    """
+
+  "CSite.GetTimeFormat":
+    "prefix": "CSiteGetTimeFormat"
+    "body": """
+    CSite::GetTimeFormat()$1
+    """
+
+  "CSite.GetTemplateList":
+    "prefix": "CSiteGetTemplatesList"
+    "body": """
+    $${1:rsTemplates} = CSite::GetTemplateList("${2:siteId");
+    while($${3:arTemplate} = $${1:rsTemplates}->Fetch())
+    {
+       var_export($${3:arTemplate});
+    }$4
+    """
+
+  "CSite.Update":
+    "prefix": "CSiteUpdate"
+    "body": """
+    $arFields = array(
+        'EMAIL' => '${1:siteemail}',
+        'NAME'  => '${2:sitename}',
+        ...
+    );
+    $rsSite = new CSite;
+    $rsSite->Update('${3:siteID}', $arFields);
+    if (strlen($rsSite->LAST_ERROR)>0) $strError .= $rsSite->LAST_ERROR;
+    """

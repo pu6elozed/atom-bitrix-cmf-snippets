@@ -1,21 +1,439 @@
-".source.php":
-    "APPLICATION.ShowMeta":
-        "prefix": "APPLImeta"
-        "body": """
-        $APPLICATION->ShowMeta('${1:metaName}');
-        """
-    "APPLICATION.ShowTitle":
-        "prefix": "APPLItitle"
-        "body": """
-        $APPLICATION->ShowTitle();
-        """
-    "APPLICATION.ShowHead":
-        "prefix": "APPLIhead"
-        "body": """
-        $APPLICATION->ShowHead();
-        """
-    "APPLICATION.ShowPanel":
-        "prefix": "APPLIpanel"
-        "body": """
-        $APPLICATION->ShowPanel();
-        """
+'.source.php':
+
+  "APPLICATION.ShowTitle":
+    "prefix": "APPLItitle"
+    "body": """
+    $APPLICATION->ShowTitle();$1
+    """
+    "leftLabel": "CMain"
+
+  "APPLICATION.ShowHead":
+    "prefix": "APPLIShowHead"
+    "body": """
+    $APPLICATION->ShowHead();$1
+    """
+
+  # divide $APPLICATION->ShowHead()
+  "APPLICATION.ShowHeadByParts":
+    "prefix": "APPLIheadParts"
+    "body" : """
+    ?>
+    <meta http-equiv="Content-Type" content="text/html; charset=<?=LANG_CHARSET;?>">
+    <?$APPLICATION->ShowMeta("keywords");
+    $APPLICATION->ShowMeta("description");
+    $APPLICATION->ShowCSS();
+    $APPLICATION->ShowHeadStrings();?>
+    <?$APPLICATION->ShowHeadScripts(); //to footer?>$1
+    """
+
+  "APPLICATION.ShowPanel":
+    "prefix": "APPLIpanel"
+    "body": """
+    $APPLICATION->ShowPanel();$1
+    """
+
+  "APPLICATION.GetTitle":
+    "prefix": "APPLIGetTitle"
+    "body": """
+    $APPLICATION->GetTitle(${1:false}',false);$2
+    """
+
+  "APPLICATION.SetTitle":
+    "prefix": "APPLISetTitle"
+    "body": """
+    $APPLICATION->SetTitle($1);$2
+    """
+
+  "APPLICATION.AddChainItem":
+    "prefix": "APPLIAddChainItem"
+    "body": """
+    $APPLICATION->AddChainItem("${1:link}", "${2:title}");$3
+    """
+
+  "APPLICATION.SnowProperty":
+    "prefix": "APPLIShowProp"
+    "body": """
+    $APPLICATION->ShowProperty("${1:name of property}");$2
+    """
+
+  "APPLICATION.GetProperty":
+    "prefix": "APPLIGetProp"
+    "body": """
+    $APPLICATION->GetProperty("${1:name of property}");$2
+    """
+
+  "APPLICATION.GetPageProperty":
+    "prefix": "APPLIGetPageProp"
+    "body": """
+    $APPLICATION->GetPageProperty("${1:name of property}");$2
+    """
+
+  "APPLICATION.GetDirProperty":
+    "prefix": "APPLIGetDirProp"
+    "body": """
+    $APPLICATION->GetDirProperty("${1:name of property}");$2
+    """
+
+  "APPLICATION.GetPagePropertyList":
+    "prefix": "APPLIGetPagePropList"
+    "body": """
+    $${1:props} = $APPLICATION->GetPagePropertyList();
+    foreach($props as${1:props} $${2:key}=>$${3:val})
+      echo '<meta name="'.$${2:key}.'" content="'.htmlspecialchars($${3:val}).'">';$4
+    """
+
+  "APPLICATION.GetDirPropertyList":
+    "prefix": "APPLIGetDirPropList"
+    "body": """
+    $${1:props} = $APPLICATION->GetDirPropertyList();
+    foreach($props as${1:props} $${2:key}=>$${3:val})
+      echo '<meta name="'.$${2:key}.'" content="'.htmlspecialchars($${3:val}).'">';$4
+    """
+
+  "APPLICATION.SetPageProperty":
+    "prefix": "APPLISetPageProp"
+    "body": """
+    $APPLICATION->SetPageProperty("${1:Property name}", ${2:Property content});$3
+    """
+
+  "APPLICATION.SetDirProperty":
+    "prefix": "APPLISetDirProp"
+    "body": """
+    $APPLICATION->SetDirProperty("${1:Property name}", ${2:Property content});$3
+    """
+
+  "APPLICATION.ShowMeta":
+    "prefix": "APPLIShowMeta"
+    "body": """
+    $APPLICATION->ShowMeta("${1:name}");$2
+    """
+
+  "APPLICATION.GetMeta":
+    "prefix": "APPLIGetMeta"
+    "body": """
+    $${1:meta_keywords} = $APPLICATION->GetMeta("${2:keywords}");
+    if (strlen($${1:meta_keywords})>0) echo $${1:meta_keywords};$3
+    """
+
+  "APPLICATION.SaveFileContent":
+    "prefix": "APPLISaveFileCont"
+    "body": """
+    if(!$APPLICATION->SaveFileContent(${1:file path}, ${2:file content}))
+      ShowError("${3:Error saving file}");$4
+    """
+
+  "APPLICATION.GetFileContent":
+    "prefix": "APPLIGetFileCont"
+    "body": """
+    $APPLICATION->GetFileContent(${1:absolute file path});$2
+    """
+
+  "APPLICATION.GetFileRecursive":
+    "prefix": "APPLIGetFileRecurs"
+    "body": """
+    $APPLICATION->GetFileRecursive("${1:filename}"));$2
+    """
+
+  "APPLICATION.GetFileAccessPermission":
+    "prefix": "APPLIGetFileAccsPerm"
+    "body": """
+    if ($APPLICATION->GetFileAccessPermission("${1:absolute file path}") <= "${2:type of permission}")
+      ShowError("${$3:File access denied}");$4
+    """
+
+  "APPLICATION.SetFileAccessPermission":
+    "prefix": "APPLISetFileAccsPerm"
+    "body": """
+    if ($APPLICATION->SetFileAccessPermission("${1:absolute file path}",
+      array("${2:id of user group}" => "${3:type of permission}")))
+      ShowNote("${4:Changed access to file}");$5
+    """
+
+  "APPLICATION.CopyFileAccessPermission":
+    "prefix": "APPLICopyFileAccsPerm"
+    "body": """
+    if ($APPLICATION->CopyFileAccessPermission("${1:absolute file path from}",
+       "${2:absolute file path to}", ${3:$override = true}))
+         ShowNote("${4:File access copied.}");$5
+    """
+
+  "APPLICATION.RemoveFileAccessPermission":
+    "prefix": "APPLIRemFileAccsPerm"
+    "body": """
+    if ($APPLICATION->RemoveFileAccessPermission("${1:absolute file path}",
+      array(${2:array of user groups})))
+    ShowNote("${3:File access removed.}");$4
+    """
+
+  "APPLICATION.GetCurUserRight":
+    "prefix": "APPLIGetCurUsrRght"
+    "body": """
+    if($APPLICATION->GetUserRight("${1:code module}") <= "${2:type of permission}")
+      $APPLICATION->AuthForm("${3:Access denied to module}");$4
+    """
+
+  "APPLICATION.GetCurUserRoles":
+    "prefix": "APPLIGetCurUsrRls"
+    "body": """
+    $${1:arRoles} = $APPLICATION->GetUserRoles("${2:code of module}");
+    if(in_array("${3:type of permission(W)}",$${1:arRoles}))
+        $strNote = "${4:You have admin rights.};
+    if ($${1:arRoles}==array("D"))
+        $APPLICATION->AuthForm("${5:Access denied to module}");
+    ShowNote($strNote);$6
+    """
+
+  "APPLICATION.GetCurUri":
+    "prefix": "APPLIGetCurUri"
+    "body": """
+    $APPLICATION->GetCurUri("${1:add params}");$2
+    """
+
+  "APPLICATION.GetCurPage":
+    "prefix": "APPLIGetCurPage"
+    "body": """
+    $APPLICATION->GetCurPage();$1
+    """
+
+  "APPLICATION.GetCurPageParam":
+    "prefix": "APPLIGetCurPageParam"
+    "body": """
+    $${1:page} = $APPLICATION->GetCurPageParam("${2:add params}",
+    array(${3"remove params mess}));$4
+    """
+
+  "APPLICATION.GetCurDir":
+    "prefix": "APPLIGetCurDir"
+    "body": """
+    $${1:dir} = $APPLICATION->GetCurDir();$2
+    """
+
+  "APPLICATION.SetCurPage":
+    "prefix": "APPLISetCurPage"
+    "body": """
+    $APPLICATION->SetCurPage("${1:page}", "${2:params}");$3
+    """
+
+  "APPLICATION.GetPanel":
+    "prefix": "APPLIGetPanel"
+    "body": """
+    $APPLICATION->GetPanel();$1
+    """
+
+  "APPLICATION.AddPanelButton":
+    "prefix": "APPLIAddPanelBtn"
+    "body": """
+    $APPLICATION->AddPanelButton(array(
+        "HREF"=> "${1:absolute link},
+        "SRC"=> "${2:button img}",
+        "ALT"=> "${3:text button}",
+        "MAIN_SORT" => ${4:int}
+        "SORT"=> ${5:int}
+    ));$6
+    """
+
+  "APPLICATION.GetPublicShowMode":
+    "prefix": "APPLIGetPublicShowMode"
+    "body": """
+    $APPLICATION->GetPublicShowMode();$1
+    """
+
+  "APPLICATION.AddHeadScript":
+    "prefix": "APPLIAddHeadScript"
+    "body": """
+    $APPLICATION->AddHeadScript('${1:absolute path to js}');
+    """
+    "description":"""d7: use \\\\Bitrix\\\\Main\\\\Page\\\\Asset::addJs
+    """
+
+  "APPLICATION.AddHeadString":
+    "prefix": "APPLIAddHeadString"
+    "body": """
+    $APPLICATION->AddHeadString('${1: full string to adding head}',${2:$unique = true});
+    """
+    "description":"""d7: use \\\\Bitrix\\\\Main\\\\Page\\\\Asset::addString
+    """
+
+  "APPLICATION.ShowHeadStrings":
+    "prefix": "APPLISHowHeadStrings"
+    "body": """
+    $APPLICATION->ShowHeadStrings();$1
+    """
+
+  "APPLICATION.set_cookie":
+    "prefix": "APPLIset_cookie"
+    "body": """
+    $APPLICATION->set_cookie("${1:name}", ${2:value},
+    ${3:time}, "${4:folder}","${5:domain}","${6:secure}");$7
+    """
+
+  "APPLICATION.get_cookie":
+    "prefix": "APPLIget_cookie"
+    "body": """
+    $APPLICATION->get_cookie("${1:name}");$2
+    """
+    "description":"""
+    D7: Bitrix\\\\Main\\\\HttpRequest::getCookie .
+    """
+
+  "APPLICATION.get_cookie":
+    "prefix": "APPLIget_cookie"
+    "body": """
+    $APPLICATION->get_cookie("${1:name}");$2
+    """
+
+  "APPLICATION.ShowSpreadCookieHTML":
+    "prefix": "APPLIShowSpreadCookieHTML"
+    "body": """
+    $APPLICATION->ShowSpreadCookieHTML();$1
+    """
+
+  "APPLICATION.IncludeFile":
+    "prefix": "APPLIIncFile"
+    "body": """
+    $APPLICATION->IncludeFile(${1:file path},
+      Array(${2:arParams}), Array(
+      "MODE"      => "html",
+      "NAME"      => "${3:icon text}",
+      "TEMPLATE"  => "${4:template}"
+    ));$5
+    """
+
+  "APPLICATION.GetTemplatePath":
+    "prefix": "APPLIGetTemplatePath"
+    "body": """
+    $APPLICATION->GetTemplatePath("${1:rel path}");$2
+    """
+
+  "APPLICATION.ThrowException":
+    "prefix": "APPLITrowExc"
+    "body": """
+    $APPLICATION->ThrowException("${1:message}");$2
+    """
+    "description":"d7 : use Bitrix\\\\Main\\\\SystemException;"
+
+  "APPLICATION.GetException":
+    "prefix": "APPLIGetExc"
+    "body": """
+    $ex = $APPLICATION->GetException())
+      $${1:strError} = $ex->GetString();$2
+    """
+    "description":"d7 : use Bitrix\\\\Main\\\\SystemException;"
+
+  "APPLICATION.ResetException":
+    "prefix": "APPLIResetExc"
+    "body": """
+    $APPLICATION->ResetException();$1
+    """
+    "description":"d7 : use Bitrix\\\\Main\\\\SystemException;"
+
+  "APPLICATION.IncludeAdminFile":
+    "prefix": "APPLIIncAdmFile"
+    "body": """
+    $APPLICATION->IncludeAdminFile(${1:message},${2:url};$3
+    """
+
+  "APPLICATION.IncludeString":
+    "prefix": "APPLIIncString"
+    "body": """
+    $arIcons=
+            Array(
+                "URL" => "${1:url file}",
+                "SRC" => "${2:url icon}",
+                "ALT" => "${3: popup text}"
+            );
+    echo $APPLICATION->IncludeString(${4:html string}, $arIcons);$5
+    """
+
+  "APPLICATION.GetShowIncludeAreas":
+    "prefix": "APPLIGetShowIncAreas"
+    "body": """
+    $APPLICATION->GetShowIncludeAreas();$1
+    """
+
+  "APPLICATION.ShowBanner":
+    "prefix": "APPLIGetShowBanner"
+    "body": """
+    $APPLICATION->ShowBanner("${1:type of banner}", "${2:before}", "${3:after}");$4
+    """
+
+  "APPLICATION.GetSiteByDir":
+    "prefix": "APPLIGetSiteByDir"
+    "body": """
+    $APPLICATION->GetSiteByDir(${1:path}, ${2:host});$3
+    """
+
+  "APPLICATION.AuthForm":
+    "prefix": "APPLIAuthForm"
+    "body": """
+    $APPLICATION->AuthForm("${1:mess}");$2
+    """
+
+  "APPLICATION.AddViewContent":
+    "prefix": "APPLIAddViewContent"
+    "body": """
+    $APPLICATION->AddViewContent(${1:view}, ${2:content}, ${3:pos});$4
+    """
+
+  "APPLICATION.ShowViewContent":
+    "prefix": "APPLIShowViewContent"
+    "body": """
+    $APPLICATION->ShowViewContent(${1:view});$2
+    """
+
+  "APPLICATION.ConvertCharset":
+    "prefix": "APPLIConvertCharset"
+    "body": """
+    $APPLICATION->ConvertCharset(${1:srt}, "${2:from}", "${3:to}");$4
+    """
+
+  "APPLICATION.ConvertCharsetArray":
+    "prefix": "APPLIConvertCharsetArray"
+    "body": """
+    $APPLICATION->ConvertCharsetArray(${1:array}, "${2:from}", "${3:to}");$4
+    """
+
+  "APPLICATION.SetViewTarget":
+    "prefix": "APPLISetViewTarget"
+    "body": """
+    <?$this->SetViewTarget('${1:view}');?>
+      ${2:content}
+    <?$this->EndViewTarget();?>
+    """
+
+  "CMain::IsHTTPS":
+    "prefix": "CMainHTTPS"
+    "body": """
+    $CMain::IsHTTPS();$1
+    """
+
+
+
+  "APPLICATION.RestartWorkarea":
+    "prefix": "APPLIRestWrkArea"
+    "body": """
+    $APPLICATION->RestartWorkarea();$1
+    """
+
+
+
+  "APPLICATION.arAdditionalChain":
+    "prefix": "APPLIarAdditChain"
+    "body": """
+    $APPLICATION->arAdditionalChain = array();$1
+    """
+
+  "APPLICATION.GetPopupLink":
+    "prefix": "APPLIGetPopupLink"
+    "body": """
+    $APPLICATION->GetPopupLink(Array(
+      "URL"=> "${1:pageurl}",
+      "PARAMS" => Array(
+        "width" => ${2:int},
+        "height" => ${3:int},
+        "resizable" => ${4:true},
+        "min_width" => ${5:int},
+        "min_height" => ${6:int}
+      )
+    );
+    """

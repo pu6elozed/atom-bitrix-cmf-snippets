@@ -1,6 +1,48 @@
 ".source.php":
-    "D7Loader":
-        "prefix": "d7loader"
-        "body": """
-        \\\\Bitrix\\\\Main\\\\Loader::includeModule('${1:module}');
-        """
+  "\\\\Bx\\\\Main\\\\Loader::includeModule":
+    "prefix": "D7LoaderIncludeModule"
+    "body": """
+    \\\\Bitrix\\\\Main\\\\Loader::includeModule('${1:module}');$2
+    """
+
+  "\\\\Bx\\\\Main\\\\Loader::registerAutoLoadClasses":
+    "prefix": "D7LoaderRegisterAutoLoadClasses"
+    "body": """
+    \\\\Bitrix\\\\Main\\\\Loader::registerAutoLoadClasses(
+        '',
+        array(
+            '${1:classname}' => '${2:pathclass}',
+            ...
+        )
+    );$3
+    """
+
+  "\\\\Bx\\\\Main\\\\Loader::autoLoad":
+    "prefix": "D7LoaderAutoLoad"
+    "body": """
+    \\\\Bitrix\\\\Main\\\\Loader::autoLoad($${1:className});$2
+    """
+
+  "\\\\Bx\\\\Main\\\\Loader::getDocumentRoot":
+    "prefix": "D7LoaderGetDocumentRoot"
+    "body": """
+    \\\\Bitrix\\\\Main\\\\\Loader::getDocumentRoot();$1
+    """
+
+  "\\\\Bx\\\\Main\\\\Loader::getLocal":
+    "prefix": "D7LoaderGetLocal"
+    "body": """
+    \\\\Bitrix\\\\Main\\\\\\Loader::getLocal($${1:path});$2
+    """
+
+  "\\\\Bx\\\\Main\\\\Loader::getPersonal":
+    "prefix": "D7LoaderGetPersonal"
+    "body": """
+    \\\\Bitrix\\\\Main\\\\\\Loader::getPersonal($${1:path});$2
+    """
+
+  "\\\\Bx\\\\Main\\\\Loader::includeSharewareModule":
+    "prefix": "D7LoaderIncludeShareModule"
+    "body": """
+    \\\\Bitrix\\\\Main\\\\\\Loader::includeSharewareModule(${1:moduleName});$2
+    """

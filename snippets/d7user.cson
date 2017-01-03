@@ -1,12 +1,67 @@
 ".source.php":
-    "D7User":
-        "prefix": "d7user"
-        "body": """
-        $arUsers = \\\\Bitrix\\\\Main\\\\UserTable::getList(array(
-            'select' => array('LOGIN'),
-            'filter' => array('ID' => '1')
-        )->fetch());
+  "\\\\Bx\\\\Main\\\\UserTable::getList":
+    "prefix": "D7UserGetList"
+    "body": """
+    $arUsers = \\\\Bitrix\\\\Main\\\\UserTable::getList(array(
+        'select' => array('LOGIN'),
+        'filter' => array('ID' => '1')
+    )->fetch());
 
-        foreach($arUsers as $arUser)
-            var_export($arUser);
-        """
+    foreach($arUsers as $arUser)
+        var_export($arUser);
+    """
+
+  "\\\\Bx\\\\Main\\\\UserTable::getTableName":
+    "prefix": "D7UserGetTableName"
+    "body": """
+    $${1:tableName} = \\\\Bitrix\\\\Iblock\\\\SectionTable::getTableName();$2
+    """
+  "\\\\Bx\\\\Main\\\\UserTable::getUfId":
+    "prefix": "D7UserGetetUfId"
+    "body": """
+    $${1:ufID} = \\\\Bitrix\\\\Iblock\\\\SectionTable::getUfId();$2
+    """
+
+  "\\\\Bx\\\\Main\\\\UserTable::getMap":
+    "prefix": "D7UserGetMap"
+    "body": """
+    $${1:map} = \\\\Bitrix\\\\Main\\\\UserTable::getMap();$2
+    """
+
+  "\\\\Bx\\\\Main\\\\UserTable::getActiveUsersCount":
+    "prefix": "D7UserGetActiveUsersCount"
+    "body": """
+    $${1:ActiveUsersCount} = \\\\Bitrix\\\\Main\\\\UserTable::getActiveUsersCount();$2
+    """
+
+  "\\\\Bx\\\\Main\\\\UserTable::getUserGroupIds":
+    "prefix": "D7UserGetActiveUsersCount"
+    "body": """
+    $${1:arUserGroupIds} = \\\\Bitrix\\\\Main\\\\UserTable::getUserGroupIds(${2:userID});$3
+    """
+
+  "\\\\Bx\\\\Main\\\\UserTable::add":
+    "prefix": "D7UserAdd"
+    "body": """
+    $${1:arUser} = array(${2:userFields});
+    \\\\Bitrix\\\\Main\\\\UserTable::add(${1:arUser});$3
+    """
+    "decription": "not realised. use CUser::Add"
+
+  "\\\\Bx\\\\Main\\\\UserTable::Update":
+    "prefix": "D7UserUpdate"
+    "body": """
+    $${1:arUser} = array(${2:userFields});
+    \\\\Bitrix\\\\Main\\\\UserTable::update(
+    ${3:primary_key_value},
+    ${1:arUser}
+    );$4
+    """
+    "decription": "not realised. use CUser::Update"
+
+  "\\\\Bx\\\\Main\\\\UserTable::delete":
+    "prefix": "D7UserDelete"
+    "body": """
+    \\\\Bitrix\\\\Main\\\\UserTable::delete(${1:primary_key_value});$2
+    """
+    "decription": "not realised. use CUser::Delete"

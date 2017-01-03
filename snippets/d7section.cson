@@ -1,12 +1,54 @@
 ".source.php":
-    "D7section":
-        "prefix": "d7section"
-        "body": """
-        $arSections = \\\\Bitrix\\\\Iblock\\\\SectionTable::getList(array(
-            'select' => array('NAME'),
-            'filter' => array('ID' => '${1:id}')
-        ))->fetch();
+  "\\\\Bx\\\\Iblock\\\\SectionTable::getList":
+    "prefix": "D7SectionGetList"
+    "body": """
+    $arSections = \\\\Bitrix\\\\Iblock\\\\SectionTable::getList(array(
+        'select' => array('NAME'),
+        'filter' => array('ID' => '${1:id}')
+    ))->fetch();
 
-        foreach($arSections as $arSection)
-            var_export($arSection);
-        """
+    foreach($arSections as $arSection)
+        var_export($arSection);
+    """
+
+  "\\\\Bx\\\\Iblock\\\\SectionTable::getFilePath":
+    "prefix": "D7SectionGetFilePath"
+    "body": """
+    $${1:classFilePath} = \\\\Bitrix\\\\Iblock\\\\SectionTable::getFilePath();$2
+    """
+
+  "\\\\Bx\\\\Iblock\\\\SectionTable::getMap":
+    "prefix": "D7SectionGetMap"
+    "body": """
+    $${1:map} = \\\\Bitrix\\\\Iblock\\\\SectionTable::getMap();$2
+    """
+
+  "\\\\Bx\\\\Iblock\\\\SectionTable::getTableName":
+    "prefix": "D7SectionGetTableName"
+    "body": """
+    $${1:tableName} = \\\\Bitrix\\\\Iblock\\\\SectionTable::getTableName();$2
+    """
+
+  "\\\\Bx\\\\Iblock\\\\SectionTable::validateCode":
+    "prefix": "D7SectionValidateCode"
+    "body": """
+    \\\\Bitrix\\\\Iblock\\\\SectionTable::validateCode();$1
+    """
+
+  "\\\\Bx\\\\Iblock\\\\SectionTable::validateName":
+    "prefix": "D7SectionValidateName"
+    "body": """
+    \\\\Bitrix\\\\Iblock\\\\SectionTable::validateName();$1
+    """
+
+  "\\\\Bx\\\\Iblock\\\\SectionTable::validateXmlId":
+    "prefix": "D7SectionValidateXmlId"
+    "body": """
+    \\\\Bitrix\\\\Iblock\\\\SectionTable::validateXmlId);$1
+    """
+
+  "\\\\Bx\\\\Iblock\\\\SectionTable::validateTmpId":
+    "prefix": "D7SectionValidateTmpId"
+    "body": """
+    \\\\Bitrix\\\\Iblock\\\\SectionTable::validateTmpId();$1
+    """
