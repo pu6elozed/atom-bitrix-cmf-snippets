@@ -1,5 +1,5 @@
 ".source.php":
-  "CIBlock::Add":
+  "CIBlock.Add":
     "prefix": "CIBlockAdd"
     "body": """
     $rsIB = new CIBlock;
@@ -10,19 +10,19 @@
     $id = $rsIB->Add($arFields);
     """
 
-  "CIBlock::Delete":
+  "CIBlock.Delete":
     "prefix": "CIBlockDel"
     "body": """
     CIBlock::Delete('${1:iblockID}');
     """
 
-  "CIBlock::GetByID":
+  "CIBlock.GetByID":
     "prefix": "CIBlockID"
     "body": """
     $arBlock = CIBlock::GetByID('${1:iblockID}')->fetch();
     """
 
-  "CIBlock::GetList":
+  "CIBlock.GetList":
     "prefix": "CIBlockList"
     "body": """
     $rsBlock = CIBlock::GetList(
@@ -36,7 +36,7 @@
         var_export($arBlocks);
     """
 
-  "CIBlock::Update":
+  "CIBlock.Update":
     "prefix": "CIBlockUpdate"
     "body": """
     $rsIB = new CIBlock;
@@ -47,7 +47,7 @@
     $rsID = $rsIB->Update('${1:id}',$arFields);
     """
 
-  "CIBlock::GetSite":
+  "CIBlock.GetSite":
     "prefix": "CIBlockGetSite"
     "body": """
     $${1:obSites} = CIBlock::GetSite(${2:IBLOCK_ID});
@@ -55,7 +55,7 @@
       var_export($${3:arSite});$4
     """
 
-  "CIBlock::GetProperties":
+  "CIBlock.GetProperties":
     "prefix": "CIBlockGetProperties"
     "body": """
     $${1:obRes} = CIBlock::GetProperties(${2:IBLOCK_ID}, ${3:arOrfer}, ${4:arFilter});
@@ -63,19 +63,19 @@
       var_export($${5:arRes});$6
     """
 
-  "CIBlock::GetPermission":
+  "CIBlock.GetPermission":
     "prefix": "CIBlockGetPermission"
     "body": """
     CIBlock::GetPermission(${1:id});$2
     """
 
-  "CIBlock::SetPermission":
+  "CIBlock.SetPermission":
     "prefix": "CIBlockSetPermission"
     "body": """
     CIBlock::SetPermission(${1:id}, Array("${2:id group}"=>"${3:type}"));$4
     """
 
-  "CIBlock::GetGroupPermissions":
+  "CIBlock.GetGroupPermissions":
     "prefix": "CIBlockGetGroupPermissions"
     "body": """
     $${1:arRes} = CIBlock::GetGroupPermissions(${2:iblock id});
@@ -84,43 +84,43 @@
     $5
     """
 
-  "CIBlock::GetArrayById":
+  "CIBlock.GetArrayById":
     "prefix": "CIBlockGetArrayByID"
     "body": """
     CIBlock::GetArrayById(${1:iblock id},"${2:name of field}");$3
     """
 
-  "CIBlock::SetMessages":
+  "CIBlock.SetMessages":
     "prefix": "CIBlockSetMessages"
     "body": """
     CIBlock::SetMessages(${1:iblock id}, $${2:arFields});$3
     """
 
-  "CIBlock::GetMessages":
+  "CIBlock.GetMessages":
     "prefix": "CIBlockGetMessages"
     "body": """
     CIBlock::GetMessages(${1:iblock id}, $${2:type iblock code});$3
     """
 
-  "CIBlock::SetFields":
+  "CIBlock.SetFields":
     "prefix": "CIBlockSetFields"
     "body": """
     CIBlock::SetFields(${1:iblock id}, $${2:arFields});$3
     """
 
-  "CIBlock::GetFields":
+  "CIBlock.GetFields":
     "prefix": "CIBlockGetFields"
     "body": """
     CIBlock::GetFields(${1:iblock id});$2
     """
 
-  "CIBlock::GetElementCount":
+  "CIBlock.GetElementCount":
     "prefix": "CIBlockGetElementCount"
     "body": """
     CIBlock::GetElementCount(${1:iblock id});$2
     """
 
-  "CIBlock::ResizePicture":
+  "CIBlock.ResizePicture":
     "prefix": "CIBlockResizePicture"
     "body": """
     CIBlock::ResizePicture($${1:arFile}, array(

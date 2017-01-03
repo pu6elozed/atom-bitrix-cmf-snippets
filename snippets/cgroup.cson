@@ -1,5 +1,5 @@
 ".source.php":
-  "CGroup::Add":
+  "CGroup.Add":
     "prefix": "CGroupAdd"
     "body": """
     $rsGroup = new CGroup;
@@ -14,7 +14,7 @@
     if (strlen($rsGroup->LAST_ERROR)>0) echo $rsGroup->LAST_ERROR;
     """
 
-  "CGroup::Delete":
+  "CGroup.Delete":
     "prefix": "CGroupDelete"
     "body": """
     $rsGroup = new CGroup;
@@ -22,7 +22,7 @@
         echo 'Group Delete';
     """
 
-  "CGroup::GetByID":
+  "CGroup.GetByID":
     "prefix": "CGroupGetBy"
     "body": """
     $arGroup = CGroup::GetByID('${1:groupID}','Y')->fetch();
@@ -30,7 +30,7 @@
         var_export($arGroup);
     """
 
-  "CGroup::GetList":
+  "CGroup.GetList":
     "prefix": "CGroupGetList"
     "body": """
     $arFilter = array(
@@ -48,7 +48,7 @@
         var_export($arGroup);
     """
 
-  "CGroup::Update":
+  "CGroup.Update":
     "prefix": "CGroupUpdate"
     "body": """
     $arFields = array(
@@ -60,7 +60,7 @@
     if (strlen($rsGroup->LAST_ERROR)>0) echo $rsGroup->LAST_ERROR;
     """
 
-  "CGroup::GetGroupUser":
+  "CGroup.GetGroupUser":
     "prefix": "CGroupGetGroupUser"
     "body": """
     $${1:arUsers} = CGroup::GetGroupUser(${2:id user});

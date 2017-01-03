@@ -1,5 +1,5 @@
 ".source.php":
-  "CIBlockElement::Add":
+  "CIBlockElement.Add":
     "prefix": "CIBlockElementAdd"
     "body": """
     $${1:rsEl} = new CIBlockElement;
@@ -14,13 +14,13 @@
         echo "Error:" . ${1:rsEl}->LAST_ERROR;$3
     """
 
-  "CIBlockElement::Delete":
+  "CIBlockElement.Delete":
     "prefix": "CIBlockElementDel"
     "body": """
     CIBlockElement::Delete('${1:elementID}');$2
     """
 
-  "CIBlockElement::GetByID":
+  "CIBlockElement.GetByID":
     "prefix": "CIBlockElementID"
     "body": """
     $${1:arElement} = CIBlockElement::GetByID(${2:elementID})->GetNext();
@@ -28,7 +28,7 @@
         var_export(${1:arElement});$3
     """
 
-  "CIBlockElement::GetElementGroups":
+  "CIBlockElement.GetElementGroups":
     "prefix": "CIBlockElementGetElementGroups"
     "body": """
     $${1:rsGroups} = CIBlockElement::GetElementGroups(${2:elementID}, true);
@@ -36,13 +36,13 @@
       var_export($${3:arGroup});$4
     """
 
-  "CIBlockElement::GetIBlockByID":
+  "CIBlockElement.GetIBlockByID":
     "prefix": "CIBlockElementGetIBlockByID"
     "body": """
     $${1:iblockID} = CIBlockElement::GetIBlockByID(${2:elementID});$3
     """
 
-  "CIBlockElement::GetProperty":
+  "CIBlockElement.GetProperty":
     "prefix": "CIBlockElementGetProperty"
     "body": """
     $${1:rsProps} = CIBlockElement::GetProperty(
@@ -52,7 +52,7 @@
       var_export($${5:arProps});$6
     """
 
-  "CIBlockElement::SetElementSection":
+  "CIBlockElement.SetElementSection":
     "prefix": "CIBlockElementSetElementSection"
     "body": """
     CIBlockElement::SetElementSection(${1:elementID}, $${2:arSections});
@@ -62,21 +62,21 @@
       PropertyIndex\\\\Manager::updateElementIndex(${3:arElement}["IBLOCK_ID"], ${1:elementID});$4
     """
 
-  "CIBlockElement::SetPropertyValues":
+  "CIBlockElement.SetPropertyValues":
     "prefix": "CIBlockElementSetPropertyValues"
     "body": """
     CIBlockElement::SetPropertyValues(${1:elementID},
      ${2:iblockID}, $${3:PROPERTY_VALUE}, $${4:PROPERTY_CODE});$5
     """
 
-  "CIBlockElement::SetPropertyValuesEx":
+  "CIBlockElement.SetPropertyValuesEx":
     "prefix": "CIBlockElementSetPropertyValuesEx"
     "body": """
     CIBlockElement::SetPropertyValuesEx(${1:elementID}, false,
      array($${3:PROPERTY_CODE}) => $${4:PROPERTY_VALUE});$5
     """
 
-  "CIBlockElement::SetPropertyValueCode":
+  "CIBlockElement.SetPropertyValueCode":
     "prefix": "CIBlockElementSetPropertyValueCode"
     "body": """
     CIBlockElement::SetPropertyValueCode(${1:elementID},
@@ -84,19 +84,19 @@
      ${3:PROPERTY_VALUE});$4
     """
 
-  "CIBlockElement::UpdateSearch":
+  "CIBlockElement.UpdateSearch":
     "prefix": "CIBlockElementUpdateSearch"
     "body": """
     CIBlockElement::UpdateSearch(${1:elementID});$2
     """
 
-  "CIBlockElement::CounterInc":
+  "CIBlockElement.CounterInc":
     "prefix": "CIBlockElementCounterInc"
     "body": """
     CIBlockElement::CounterInc(${1:elementID});$2
     """
 
-  "CIBlockElement::GetList":
+  "CIBlockElement.GetList":
     "prefix": "CIBlockElementList"
     "body": """
     $${1:rsElement} = CIBlockElement::GetList(
@@ -116,7 +116,7 @@
     }
     """
 
-  "CIBlockElement::Update":
+  "CIBlockElement.Update":
     "prefix": "CIBlockElementUpdate"
     "body": """
     $${1:el} = new CIBlockElement;

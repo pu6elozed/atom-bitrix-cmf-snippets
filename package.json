@@ -1,5 +1,5 @@
 {
-  "name": "bitrix-cmf-snippets",
+  "name": "atom-bitrix-cmf-snippets",
   "main": "index.js",
   "version": "0.1.0",
   "description": "Bitrix CMF snippets",
